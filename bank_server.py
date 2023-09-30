@@ -72,7 +72,20 @@ class BankAccount:
             self.acct_balance -= amount
         return self, success_code, self.acct_balance
 
-# Bank Server operations
+def get_acct(acct_num):
+    # Lookup acct_num in the ALL_ACCOUNTS database and return the account object if it's found.
+    # Return False if the acct_num is invalid. If the 
+    if acctNumberIsValid(acct_num) and (acct_num in ALL_ACCOUNTS):
+        return ALL_ACCOUNTS[acct_num]
+    else:
+        return False
+
+def load_all_accounts(acct_file):
+    # to be written
+    return
+
+# Bank Server network operations
+# All code involved in supporting the bank server's network communications goes in this section
 def process_client_msg(msg_bytes):
     return
 
