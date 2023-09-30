@@ -5,6 +5,12 @@ import socket
 HOST = "127.0.0.1"  # Standard loopback interface address (localhost)
 PORT = 65432  # Port to listen on (non-privileged ports are > 1023)
 
+def process_client_msg(msg_bytes):
+    return
+
+def send_response_to_client(code, result):
+    return
+
 def run_bank_server():
     print("server starting - listening for connections at IP", HOST, "and port", PORT)
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
