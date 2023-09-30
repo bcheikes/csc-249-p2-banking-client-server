@@ -29,7 +29,7 @@ def amountIsValid(amount):
     # For an amount to be valid it must be a positive float() value with at most two decimal places
     return isinstance(amount, float) and (round(amount, 2) == amount) and (amount >= 0)
 
-# Individual bank accounts are stored as BankAccount instances
+# Each bank account is stored as a BankAccount instance
 class BankAccount:
     acct_number = ''
     acct_pin = ''
@@ -122,15 +122,19 @@ def load_all_accounts(acct_file = "accounts.txt"):
 # Bank Server network operations
 # All code involved in supporting the bank server's network communications goes in this section
 def process_client_msg(msg_bytes):
+    # to be written
     return
 
 def send_response_to_client(code, result):
+    # to be written
     return
 
-def run_bank_server():
-    # Needs to be written!
-    load_all_accounts(ACCT_FILE)
+def run_network_server():
+# Needs to be written!
+    return
 
 if __name__ == "__main__":
-    run_bank_server()
+    # on startup, load all the accounts from the account file
+    load_all_accounts(ACCT_FILE)
+    run_network_server()
     print("bank server exiting...")
