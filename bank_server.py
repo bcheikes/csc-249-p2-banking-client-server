@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 #
 # Bank Server application
+# Jimmy da Geek
 
 import socket
 
-HOST = "127.0.0.1"  # Standard loopback interface address (localhost)
-PORT = 65432  # Port to listen on (non-privileged ports are > 1023)
-
+HOST = "127.0.0.1"      # Standard loopback interface address (localhost)
+PORT = 65432            # Port to listen on (non-privileged ports are > 1023)
 ALL_ACCOUNTS = dict()   # initialize an empty dictionary
+ACCT_FILE = "accounts.txt"
 
 # Helper functions for Bank Server
 def acctNumberIsValid(ac_num):
@@ -30,14 +31,18 @@ def amountIsValid(amount):
 
 # Individual bank accounts are stored as BankAccount instances
 class BankAccount:
-    acct_balance = 0    # initial account balance is zero
-
-    def __init__(self, ac_num = "zz-00000", ac_pin = "0000"):
+    acct_number = ''
+    acct_pin = ''
+    acct_balance = 0.0
+    
+    def __init__(self, ac_num = "zz-00000", ac_pin = "0000", bal = 0.0):
         # initialize the state variables of a new BankAccount instance
         if acctNumberIsValid(ac_num):
             self.acct_number = ac_num
         if acctPinIsValid(ac_pin):
             self.acct_pin = ac_pin
+        if amountIsValid(bal):
+            self.acct_balance = bal
 
     def deposit(self, amount):
         # if the amount is valid, then update the acct_balance
@@ -80,9 +85,39 @@ def get_acct(acct_num):
     else:
         return False
 
-def load_all_accounts(acct_file):
-    # to be written
-    return
+def load_account(num_str, pin_str, bal_str):
+    # all arguments are strings
+    try:
+        bal = float(bal_str)
+        if acctNumberIsValid(num_str) and not get_acct(num_str):
+        # We have a valid new account number not previously loaded
+            new_acct = BankAccount(num_str, pin_str, bal)
+            ALL_ACCOUNTS[num_str] = new_acct
+            print(f"loaded account '{num_str}'")
+            return True
+    except ValueError:
+        print(f"error loading acct '{num_str}': balance value not a float")
+        return False
+    
+def load_all_accounts(acct_file = "accounts.txt"):
+    print(f"loading account data from file: {acct_file}")
+    with open(acct_file, "r") as f:
+        while True:
+            line = f.readline()
+            if not line:
+                # we're done
+                break
+            if line[0] == "#":
+                # comment line, no error, ignore
+                continue
+            # convert all alpha characters to lowercase and remove whitespace, then split on comma
+            acct_data = line.lower().strip().split(',')
+            if len(acct_data) != 3:
+                print("ERROR: invalid entry in account file: '{line}' - IGNORED")
+                continue
+            load_account(acct_data[0], acct_data[1], acct_data[2])
+    print("finished loading account data")
+    return True
 
 # Bank Server network operations
 # All code involved in supporting the bank server's network communications goes in this section
@@ -94,7 +129,7 @@ def send_response_to_client(code, result):
 
 def run_bank_server():
     # Needs to be written!
-    return False
+    load_all_accounts(ACCT_FILE)
 
 if __name__ == "__main__":
     run_bank_server()
