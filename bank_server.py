@@ -195,6 +195,7 @@ def demo_bank_server():
 if __name__ == "__main__":
     # on startup, load all the accounts from the account file
     load_all_accounts(ACCT_FILE)
-    demo_bank_server()
+    # uncomment the next line in order to run a simple demo of the server in action
+    #demo_bank_server()
     run_network_server()
     print("bank server exiting...")

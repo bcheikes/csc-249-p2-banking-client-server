@@ -17,18 +17,20 @@ PORT = 65432            # The port used by the bank server
 
 def send_to_server(sock, msg):
     """ Given an open socket connection (sock) and a string msg, send the string to the server. """
+    # TODO make sure this works as needed
     return sock.sendall(msg.encode('utf-8'))
 
 def get_from_server(sock):
     """ Attempt to receive a message from the active connection. Block until message is received. """
+    # TODO make sure this works as needed
     msg = sock.recv(1024)
     return msg.decode('utf-8')
 
 def login_to_server(sock, acct_num, pin):
     """ Attempt to login to the bank server. Pass acct_num and pin, get response, parse and check whether login was successful. """
     validated = 0
-    # TODO: Write this code! Note that a '1' return below is hardcoded until the network comms are built right.
-    return 1
+    # TODO: Write this code!
+    return validated
 
 def get_login_info():
     """ Get info from customer. TODO: Validate inputs, ask again if given invalid input. """
@@ -105,6 +107,6 @@ def run_network_client():
         print(f"Unable to connect to the banking server - exiting...")
 
 if __name__ == "__main__":
-    print("Welcome to the ACME ATM Client, where customer delight is our goal!")
+    print("Welcome to the ACME ATM Client, where customer satisfaction is our goal!")
     run_network_client()
     print("Thanks for banking with us! Come again soon!!")

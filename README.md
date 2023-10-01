@@ -1,12 +1,12 @@
 # CSC 249 – Project 2 – ATM client with multi-client back-end banking server
 
-In this project you will build a distributed ATM banking application. This application will consist of two separate software programs: (1) a bank server, which holds all bank account records and handles all financial transactions; and (2) an Automated Teller Machine client, which obtains needed inputs from the customer but otherwise relies on the server to perform transaction processing.
+In this project you will build a distributed ATM banking application. This application consists of two separate software programs: (1) a bank server, which holds all bank account records and handles all financial transactions; and (2) an Automated Teller Machine client, which obtains needed inputs from the customer but otherwise relies on the server to perform transaction processing.
 
-The main focus of your work will be on enabling the banking server to handle simultaneous connections from different ATM client instances. Relevant technical resources include the Jennings tutorial we encountered in Project 1 (https://realpython.com/python-sockets/). For this project, it is recommended that you focus on the tutorial material pertaining to Handling Multiple Connections [(https://realpython.com/python-sockets/#handling-multiple-connections)].
+The main focus of your work will be on enabling the banking server to handle simultaneous connections from different ATM client instances, and then process transaction requests correctly. Relevant technical resources include the Jennings tutorial we encountered in Project 1 (https://realpython.com/python-sockets/). For this project, it is recommended that you focus on the tutorial material pertaining to Handling Multiple Connections [(https://realpython.com/python-sockets/#handling-multiple-connections)].
 
-To help you get started on this project and enable you to focus on the most important parts (that is, the networking components and the client-server message protocol), you are given initial code for both programs. The Python file "bank_server.py" implements all the back-end server functionality EXCEPT none of the network communication components have been implemented. The Python file "atm_client.py" contains a basic ATM client application EXCEPT none of the client-server messaging and message handling functions have been implemented.
+To help you get started on this project and enable you to focus on the most important parts (that is, the networking components and the client-server message protocol), you are given initial code for both programs. The Python file "bank_server.py" implements all the back-end server functionality EXCEPT none of the network communication components have been implemented. The Python file "atm_client.py" contains a basic ATM client application EXCEPT none of the client-server messaging and message handling functions have been implemented. You should study this code and make sure you understand how it works and where you need to make changes and/or insert new code. Both programs are sprinkled with "TODO" in comments to help you find and focus on the parts of the programs where you will need to be working.
 
-Both programs are sprinkled with "TODO" in comments to help you find and focus on the parts of the programs where you will need to be working.
+**If you have any questions about the provided code or the instructions below, please seek help from the instructor and/or the teaching assistant as soon as possible!**
 
 ## Bank Server Design Requirements
 
@@ -15,18 +15,16 @@ Conceptually at least, the bank_server application runs in a secure data center 
 The bank_server:
 
 * MUST run in its own computing process (i.e., in a dedicated terminal window).
-* MUST allow multiple simultaneous ATM_client connections.
-* MUST communicate with ATM_clients exclusively by sending and receiving messages over the network using an application-layer message protocol of your own design.
+* MUST allow multiple simultaneous ATM client connections.
+* MUST communicate with ATM clients exclusively by sending and receiving messages over the network using an application-layer message protocol of your own design.
 * MUST allow multiple ATM clients to send messages to the server and receive timely responses from the server. One client should never be blocked until other client(s) have completed all their transactions.
 * MUST validate an account's PIN code before allowing any other transactions to be performed on that account.
 * MUST prevent two or more ATM clients from accessing the same bank account and performing transactions on it.
+* MUST transmit error results to the client using numeric codes rather than literal message strings.
 * After a customer "logs in" to their account from an ATM client, the server MUST allow any number of transactions to be performed during that client banking session. During the session, access to the account from other ATM clients MUST be rejected.
-* After a customer "logs out" of their account from an ATM client by exiting the client, the server MUST again allow a new ATM client to connect and access that account.
-* MUST prevent unfriendly clients from sending messages which cause the server to crash, behave incorrectly, or provide unauthorized access to customer bank accounts.
+* MUST prevent malicious client applications (i.e., other than the implemented atm_client application) from being able to send messages the the server which cause the server to crash, behave incorrectly, and/or provide unauthorized access to customer bank accounts.
 * The bank_server MAY generate console output for tracing and debugging purposes.
 * The bank_server MUST NOT assume that any customer has access to the server's console.
-* Server source code must be well documented following program documentation standards posted at this link:
-* Source code comments should be sufficient to allow a third party to understand your code, run it, and confirm that it works.
 
 ## ATM Client Design Requirements
 
@@ -40,8 +38,8 @@ The atm_client:
 * MUST connect to only one bank_server at a time.
 * MUST communicate with the bank_server exclusively by sending and receiving messages over the network using an application-layer message protocol of your own design.
 * MUST require each banking session to being with a customer "log in" step, where the customer provides an account number and PIN which are then validated by the bank_server.
-* MUST NOT allow a customer to perform any banking transactions unless their account number and PIN are validated by the bank_server.
-* MUST allow a customer to perform any sequence of deposits, withdrawals, and balance checks after they have successfully logged in.
+* MUST NOT allow a customer to perform any banking transactions unless their account number and PIN are first validated by the bank_server.
+* MUST allow a customer to perform any sequence of deposits, withdrawals, and balance checks after they have validated their account number and PIN.
 * MUST NOT allow a customer to overdraw their bank account.
 
 ## General Client-Server Application Design Requirements
@@ -59,11 +57,13 @@ All work must be submitted via Gradescope.
 You must submit these work products:
 
 1. Source code for your bank_server and atm_client. Ideally, this will be a link to your public Git code repository. (Use of Git is encouraged but not required; you may instead upload your individual Python files directly to Gradescope without involving Git.)
-2. A message specification document. This document must include a written description of the application-layer message protocol you developed for communications sent between the client and the server. You **must** document your message formats using the IETF-standard Augmented Backus–Naur form (ABNF). (For more details on ABNF, see [https://en.wikipedia.org/wiki/Augmented_Backus%E2%80%93Naur_form].)
+2. A message specification document. This document must include a written description of the application-layer message protocol you developed for communications that are sent between the client and the server. You **must** document your message formats using Augmented Backus–Naur form (ABNF). (For more details on ABNF, see [https://en.wikipedia.org/wiki/Augmented_Backus%E2%80%93Naur_form].)
 
 ## Teamwork Policy
 
 **For this project, submissions from two-person teams are welcome**.
+
+Teams should consider code revisions that enable the atm_client and bank_server to use real IP addresses instead of the loopback address. In this way, one team member could focus on client development and the other on server development, then the team members could test their components from different locations. This could be very cool!
 
 ## Getting Help
 
@@ -81,13 +81,12 @@ Your work on this project will be graded on a ten-point scale. Fractional points
 
 _0 pts:_ No deliverables were received by the due date or requested extension date.
 
-_1-2 pts:_ Incomplete deliverables were received by the due date or extension date.
+_1-5 pts:_ Incomplete deliverables were received by the due date or extension date.
 
-_3-4 pts:_ Required deliverables were received but are deficient in various ways.
+_6-7 pts:_ All deliverables received. Most design requirements are not satisfied.
 
-_5-6 pts:_ Complete and adequate deliverables. Code runs but is deficient in various ways.
+_7-8 pts:_ All deliverables received. Many design requirements are not satisfied.
 
-_7-8 pts:_ Code runs and does most but not all of what is required.
+_8-9 pts:_ All deliverables received. A few design requirements are not satisfied.
 
-_9-10 pts:_ Nailed it. Complete deliverables, code runs and does what is required.
-
+_9-10 pts:_ Complete deliverables, all or nearly all design requirements are satisfied.
