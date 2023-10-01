@@ -169,7 +169,7 @@ def demo_bank_server():
     if not code:
         print(f"Successful withdrawal, new balance: {new_balance}")
     else:
-        printf("Withdrawal failed!")
+        print("Withdrawal failed!")
     print(f"Attempting to deposit 123.4567...")
     _, code, new_balance = acct.deposit(123.4567)
     if not code:

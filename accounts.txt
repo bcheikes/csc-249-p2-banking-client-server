@@ -1,6 +1,11 @@
-# account number, pin, balance
+# Bank Account Records for bank server
+# Data is provided as comma-separated values.
+# Columns are: account number, pin, balance
 ac-12345, 1324, 1024.32
 wf-14351, 9834, 5428.22
 tn-13731, 2435, 6462.75
+fe-63912, 5338, 2499.12
+kh-10406, 6732, 15327.89
+bc-01373, 2947, 45.72
 # account number used for test purposes
 zz-99999, 9999, 655.35
