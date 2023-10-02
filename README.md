@@ -19,7 +19,7 @@ The bank_server:
 * MUST communicate with ATM clients exclusively by sending and receiving messages over the network using an application-layer message protocol of your own design.
 * MUST allow multiple ATM clients to send messages to the server and receive timely responses from the server. One client should never be blocked until other client(s) have completed all their transactions.
 * MUST validate an account's PIN code before allowing any other transactions to be performed on that account.
-* MUST prevent two or more ATM clients from accessing the same bank account and performing transactions on it.
+* MUST prevent more than one ATM client at a time from accessing a bank account and performing transactions on it.
 * MUST transmit error results to the client using numeric codes rather than literal message strings.
 * After a customer "logs in" to their account from an ATM client, the server MUST allow any number of transactions to be performed during that client banking session. During the session, access to the account from other ATM clients MUST be rejected.
 * MUST prevent malicious client applications (i.e., other than the implemented atm_client application) from being able to send messages the the server which cause the server to crash, behave incorrectly, and/or provide unauthorized access to customer bank accounts.
@@ -35,6 +35,7 @@ Notionally, every ATM banking session begins with a customer "logging in" by pro
 The atm_client:
 
 * MUST run in its own computing process (i.e., in a dedicated terminal window).
+* MUST obtain all needed user inputs through keyboard interaction.
 * MUST connect to only one bank_server at a time.
 * MUST communicate with the bank_server exclusively by sending and receiving messages over the network using an application-layer message protocol of your own design.
 * MUST require each banking session to being with a customer "log in" step, where the customer provides an account number and PIN which are then validated by the bank_server.
@@ -56,8 +57,16 @@ All work must be submitted via Gradescope.
 
 You must submit these work products:
 
-1. Source code for your bank_server and atm_client. Ideally, this will be a link to your public Git code repository. (Use of Git is encouraged but not required; you may instead upload your individual Python files directly to Gradescope without involving Git.)
-2. A message specification document. This document must include a written description of the application-layer message protocol you developed for communications that are sent between the client and the server. You **must** document your message formats using Augmented Backus–Naur form (ABNF). (For more details on ABNF, see [https://en.wikipedia.org/wiki/Augmented_Backus%E2%80%93Naur_form].)
+1. Source code for your bank_server and atm_client. Ideally, this will be a link to your public Git code repository. (Use of Git is encouraged but not required; you may instead upload your individual files directly to Gradescope without involving Git.)
+2. A message specification document. For required contents, see Message Specification Document Requirements below.
+
+## Message Specification Document Requirements
+
+* This document MUST include a written summary of the application-layer message protocol you developed for all communications between the client and the server.
+* Message formats MUST be documented using Augmented Backus–Naur form (ABNF). See [https://en.wikipedia.org/wiki/Augmented_Backus%E2%80%93Naur_form] for details on ABNF.
+* In addition to the ABNF specification, you MUST include some examples of each type of message you have defined.
+* You MUST describe the component fields of each message, what constitutes allowed values for each field, and expected receiver actions in response to each message.
+* You MUST include a brief description of how you solved the design problem of preventing bank account access from more than one atm_client at a time.
 
 ## Teamwork Policy
 
