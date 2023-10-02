@@ -58,29 +58,29 @@ class BankAccount:
         """ Make a deposit. The value of amount must be valid for bank transactions. If amount is valid, update the acct_balance.
         This method returns three values: self, success_code, current balance.
         Success codes are: 0: valid result; 1: invalid amount given. """
-        success_code = 0
+        result_code = 0
         if not amountIsValid(amount):
-            success_code = 1
+            result_code = 1
         else:
             # valid amount, so add it to balance and set succes_code 1
             self.acct_balance += amount
-        return self, success_code, round(self.acct_balance,2)
+        return self, result_code, round(self.acct_balance,2)
 
     def withdraw(self, amount):
         """ Make a withdrawal. The value of amount must be valid for bank transactions. If amount is valid, update the acct_balance.
         This method returns three values: self, success_code, current balance.
         Success codes are: 0: valid result; 1: invalid amount given; 2: attempted overdraft. """
-        success_code = 0
+        result_code = 0
         if not amountIsValid(amount):
             # invalid amount, return error 
-             success_code = 1
+            result_code = 1
         elif amount > self.acct_balance:
             # attempted overdraft
-            success_code = 2
+            result_code = 2
         else:
             # all checks out, subtract amount from the balance
             self.acct_balance -= amount
-        return self, success_code, round(self.acct_balance,2)
+        return self, result_code, round(self.acct_balance,2)
 
 def get_acct(acct_num):
     """ Lookup acct_num in the ALL_ACCOUNTS database and return the account object if it's found.
@@ -153,7 +153,7 @@ def run_network_server():
 ##########################################################
 
 def demo_bank_server():
-    """ A function that exercises basic server functions and prints out some results. """
+    """ A function that exercises basic server functions and prints out the results. """
     # get the demo account from the database
     acct = get_acct("zz-99999")
     print(f"Test account '{acct.acct_number}' has PIN {acct.acct_pin}")
