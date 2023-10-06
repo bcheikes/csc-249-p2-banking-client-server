@@ -122,7 +122,7 @@ def load_all_accounts(acct_file = "accounts.txt"):
                 # comment line, no error, ignore
                 continue
             # convert all alpha characters to lowercase and remove whitespace, then split on comma
-            acct_data = line.lower().strip().split(',')
+            acct_data = line.lower().replace(" ", "").split(',')
             if len(acct_data) != 3:
                 print("ERROR: invalid entry in account file: '{line}' - IGNORED")
                 continue
