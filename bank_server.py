@@ -124,7 +124,7 @@ def load_all_accounts(acct_file = "accounts.txt"):
             # convert all alpha characters to lowercase and remove whitespace, then split on comma
             acct_data = line.lower().replace(" ", "").split(',')
             if len(acct_data) != 3:
-                print("ERROR: invalid entry in account file: '{line}' - IGNORED")
+                print(f"ERROR: invalid entry in account file: '{line}' - IGNORED")
                 continue
             load_account(acct_data[0], acct_data[1], acct_data[2])
     print("finished loading account data")
